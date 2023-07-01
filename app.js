@@ -25,10 +25,14 @@ const storage = multer.diskStorage({
 
 const fileFilter = (req, file, cb) => {
   if (
+    //image Extensions
     file.mimetype == "image/jpeg" ||
     file.mimetype == "image/jpg" ||
     file.mimetype == "image/png" ||
-    file.mimetype == "image/webp"
+    file.mimetype == "image/webp" ||
+
+    //Videos Extensions
+    file.mimetype == "video/mp4"
   )
     cb(null, true);
   else cb(null, false);
@@ -37,6 +41,7 @@ const fileFilter = (req, file, cb) => {
 //Router Declarations
 const user = require('./Routes/user')
 const auth = require('./Routes/auth')
+const general = require('./Routes/general')
 
 //Create Server
 const app = express();
@@ -79,7 +84,8 @@ try {
 
 //img
 app.use("/images", express.static(path.join(__dirname, "images")));
-app.use(multer({ storage, fileFilter }).array("image", 10));
+// app.use(multer({ storage, fileFilter }).array("image", 10));
+app.use(multer({ storage, fileFilter }).fields([{ name: 'logo', maxCount: 1 }, { name: 'media', maxCount: 10 }]))
 
 //body parser
 app.use(body_parser.json());
@@ -88,6 +94,7 @@ app.use(body_parser.urlencoded({ extended: false }));
 ////////////////////////////////Routers//////////////////////////////////
 app.use('/user', user)
 app.use('/auth' ,auth)
+app.use('/general' , general)
 
 //General middleware for not Found url pathes
 app.use((req, res) => {

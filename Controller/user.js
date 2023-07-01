@@ -94,7 +94,7 @@ exports.deleteUser = async (req, res, next) => {
       let data = await users.findOneAndDelete({ _id: req.params.id });
       if (data == null) throw new Error("User Is not Found!");
 
-      res.status(200).json({ message: "User Deleted", data });
+      res.status(200).json({ message: "User Deleted" });
   } catch (err) {
     next(err);
   }
