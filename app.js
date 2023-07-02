@@ -42,6 +42,8 @@ const fileFilter = (req, file, cb) => {
 const user = require('./Routes/user')
 const auth = require('./Routes/auth')
 const general = require('./Routes/general')
+const service = require('./Routes/service')
+const management = require('./Routes/management')
 
 //Create Server
 const app = express();
@@ -84,8 +86,11 @@ try {
 
 //img
 app.use("/images", express.static(path.join(__dirname, "images")));
-// app.use(multer({ storage, fileFilter }).array("image", 10));
-app.use(multer({ storage, fileFilter }).fields([{ name: 'logo', maxCount: 1 }, { name: 'media', maxCount: 10 }]))
+app.use(multer({ storage, fileFilter }).fields([
+  { name: 'logo', maxCount: 1 },
+  { name: 'media', maxCount: 10 },
+  { name: 'image', maxCount: 1 }
+]))
 
 //body parser
 app.use(body_parser.json());
@@ -95,6 +100,8 @@ app.use(body_parser.urlencoded({ extended: false }));
 app.use('/user', user)
 app.use('/auth' ,auth)
 app.use('/general' , general)
+app.use('/service' , service)
+app.use('/management' , management)
 
 //General middleware for not Found url pathes
 app.use((req, res) => {

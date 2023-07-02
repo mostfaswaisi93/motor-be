@@ -8,7 +8,7 @@ const serviceSchema = new mongoose.Schema({
     description_en: String,
     whatsappLink: String,
     media:Array,
-    managment: {type: mongoose.Types.ObjectId, ref:"managment"}
+    management: [{type: mongoose.Types.ObjectId, ref:"management"}]
 },{timestamps:true})
 
 module.exports=mongoose.model('service',serviceSchema);
