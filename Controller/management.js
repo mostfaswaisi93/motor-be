@@ -22,10 +22,14 @@ exports.addNewManagement = async (req, res, next) => {
         let obj = new Management({
           image: req.files?.image?.[0]?.filename || '',
           type: req.body.type,
-          title_ar: req.body.title_ar,
-          title_en: req.body.title_en,
-          description_ar: req.body.description_ar,
-          description_en: req.body.description_en,
+          title:{
+            ar: req.body.title_ar,
+            en: req.body.title_en,
+          },
+          description:{
+              ar: req.body.description_ar,
+              en: req.body.description_en,
+          },
           phoneNumber: req.body.phoneNumber,
           email: req.body.email,
           ...(req.body.type== 'Service' && {serviceId: req.body.serviceId})
@@ -53,10 +57,14 @@ exports.updateManagement = async (req, res, next) => {
   
         let data = await Management.findOneAndUpdate({_id : req.body.managementId},{
           image: req.files.image?.[0] ? req.files?.image?.[0]?.filename : req.body.image,
-          title_ar: req.body.title_ar,
-          title_en: req.body.title_en,
-          description_ar: req.body.description_ar,
-          description_en: req.body.description_en,
+          title:{
+            ar: req.body.title_ar,
+            en: req.body.title_en,
+          },
+          description:{
+              ar: req.body.description_ar,
+              en: req.body.description_en,
+          },
           phoneNumber: req.body.phoneNumber,
           email: req.body.email,
         },{new :true})

@@ -36,11 +36,14 @@ exports.addNewService = async (req, res, next) => {
 
     let obj = new Service({
       logo: req.files?.logo?.[0]?.filename,
-      title_ar: req.body.title_ar,
-      title_en: req.body.title_en,
-      description_ar: req.body.description_ar,
-      description_en: req.body.description_en,
-      whatsappLink: req.body.whatsappLink,
+      title:{
+        ar: req.body.title_ar,
+        en: req.body.title_en,
+      },
+      description:{
+          ar: req.body.description_ar,
+          en: req.body.description_en,
+      },      whatsappLink: req.body.whatsappLink,
       media,
     });
 
@@ -66,10 +69,14 @@ exports.updateService = async (req, res, next) => {
     
     let data = await Service.findOneAndUpdate({_id: req.body.serviceId},{
       logo: req.files.logo?.[0] ? req.files.logo?.[0].filename : req.body.logo,
-      title_ar: req.body.title_ar,
-      title_en: req.body.title_en,
-      description_ar: req.body.description_ar,
-      description_en: req.body.description_en,
+      title:{
+        ar: req.body.title_ar,
+        en: req.body.title_en,
+      },
+      description:{
+          ar: req.body.description_ar,
+          en: req.body.description_en,
+      },
       whatsappLink: req.body.whatsappLink,
       media,
     },{

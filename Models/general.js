@@ -4,12 +4,18 @@ const generalSchema = new mongoose.Schema({
 
     header:{
         logo: String,
-        title_ar: String,
-        title_en: String,
-        description_ar: String,
-        description_en: String,
-        question_en: String,
-        question_ar: String,
+        title:{
+            ar: String,
+            en: String,
+        },
+        description:{
+            ar: String,
+            en: String,
+        },
+        question:{
+            en: String,
+            ar: String,
+        },
         media: Array
     },
     socialMedia:{
@@ -21,29 +27,47 @@ const generalSchema = new mongoose.Schema({
         twitter: String,
     },
     contactUs:{
-        city_ar:String,
-        city_en:String,
-        country_ar:String,
-        country_en:String,
-        address_ar:String,
-        address_en:String,
-        primaryEmail: String,
-        secondaryEmail: String,
-        primaryPhoneNumber: Number,
-        secondaryPhoneNumber: Number,
+        city:{
+            ar:String,
+            en:String,
+        },
+        country:{
+            ar:String,
+            en:String,
+        },
+        address:{
+            ar:String,
+            en:String,
+        },
+        email:{
+            primary: String,
+            secondary: String,
+        },
+        phoneNumber:{
+            primary: Number,
+            secondary: Number,
+        }
     }, 
     whoAreWe:{
-        title_ar: String,
-        title_en: String,
-        description_ar: String,
-        description_en: String,
+        title:{
+            ar: String,
+            en: String,
+        },
+        description:{
+            ar: String,
+            en: String,
+        },
         media: Array
     },
     whatDoWeApply:{
-        title_ar: String,
-        title_en: String,
-        description_ar: String,
-        description_en: String,
+        title:{
+            ar: String,
+            en: String,
+        },
+        description:{
+            ar: String,
+            en: String,
+        },
     }
 },{timestamps:true})
 

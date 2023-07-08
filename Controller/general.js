@@ -17,12 +17,18 @@ exports.updateHeader = async (req, res, next) => {
       header:{
         logo: req.files.logo ? req.files.logo[0]?.filename : req.body.logo,
         media,
-        title_ar: req.body.title_ar,
-        title_en: req.body.title_en,
-        description_ar: req.body.description_ar,
-        description_en: req.body.description_en,
-        question_en: req.body.question_en,
-        question_ar: req.body.question_ar,    
+        title:{
+          ar: req.body.title_ar,
+          en: req.body.title_en,
+        },
+        description:{
+            ar: req.body.description_ar,
+            en: req.body.description_en,
+        },
+        question:{
+        ar: req.body.question_ar,
+        en: req.body.question_en,
+        }
       }
     },{upsert: true, new: true})
     
@@ -82,16 +88,26 @@ exports.updateContactUs = async (req, res, next) => {
     
     let data = await General.findOneAndUpdate({},{
       contactUs:{
-        city_ar: req.body.city_ar,
-        city_en: req.body.city_en,
-        country_ar: req.body.country_ar,
-        country_en: req.body.country_en,
-        address_ar: req.body.address_ar,
-        address_en: req.body.address_en,
-        primaryEmail: req.body.primaryEmail,
-        secondaryEmail: req.body.secondaryEmail,
-        primaryPhoneNumber: req.body.primaryPhoneNumber,
-        secondaryPhoneNumber: req.body.secondaryPhoneNumber
+        city:{
+          ar: req.body.city_ar,
+          en: req.body.city_en,
+        },
+        country:{
+          ar: req.body.country_ar,
+          en: req.body.country_en,
+        },
+        address:{
+          ar: req.body.address_ar,
+          en: req.body.address_en,
+        },
+        email:{
+          primary: req.body.primaryEmail,
+          secondary: req.body.secondaryEmail,
+        },
+        phoneNumber:{
+          primary: req.body.primaryPhoneNumber,
+          secondary: req.body.secondaryPhoneNumber
+        },
       }
     },{upsert: true, new: true})
     
@@ -128,10 +144,14 @@ exports.updateWhoWeAre = async (req, res, next) => {
     let data = await General.findOneAndUpdate({},{
       whoAreWe:{
         media,
-        title_ar: req.body.title_ar,
-        title_en: req.body.title_en,
-        description_ar: req.body.description_ar,
-        description_en: req.body.description_en,
+        title:{
+          ar: req.body.title_ar,
+          en: req.body.title_en,
+        },
+        description:{
+            ar: req.body.description_ar,
+            en: req.body.description_en,
+        },
        }
     },{upsert: true, new: true})
     
@@ -159,10 +179,14 @@ exports.updateWhatDoWeApply = async (req, res, next) => {
     
     let data = await General.findOneAndUpdate({},{
       whatDoWeApply:{
-        title_ar: req.body.title_ar,
-        title_en: req.body.title_en,
-        description_ar: req.body.description_ar,
-        description_en: req.body.description_en,
+        title:{
+          ar: req.body.title_ar,
+          en: req.body.title_en,
+        },
+        description:{
+            ar: req.body.description_ar,
+            en: req.body.description_en,
+        },
       }
     },{upsert: true, new: true})
     
