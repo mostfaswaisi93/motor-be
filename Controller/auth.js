@@ -23,6 +23,7 @@ exports.authenticationLogin = async (request, response, next) => {
         );
         const { password, ...others } = data._doc;
         response.status(200).json({
+          success: true,
           message: `You Successfully logged in`,
           data: others,
           token,
@@ -52,7 +53,7 @@ exports.changepassword = async (request, response, next) => {
             await data.save()
        
         const { password, ...others } = data._doc;
-        response.status(200).json({ message: "password changed correctly", data: others});
+        response.status(200).json({ message: "password changed correctly",success: true, data: others});
             
       } else {
         throw new Error("Your Password isn't Correct");

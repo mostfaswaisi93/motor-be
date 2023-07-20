@@ -6,7 +6,7 @@ const error = require("../Middleware/error");
 exports.getGeneralManagement = async (req, res, next) => {
   try {
     let data = await Management.find({ type: "General" }).sort({createdAt: -1})
-    res.status(200).json({ message: `get General Management`, data});
+    res.status(200).json({ message: `get General Management`,success: true, data});
   } catch (err) {
     next(err);
   }
@@ -43,7 +43,7 @@ exports.addNewManagement = async (req, res, next) => {
          }) 
         }
       
-    res.status(200).json({ message: `Management Added`, data});
+    res.status(200).json({ message: `Management Added`,success: true, data});
   } catch (err) {
     next(err);
   }
@@ -71,7 +71,7 @@ exports.updateManagement = async (req, res, next) => {
 
         if(!data) throw new Error("Management isn't Found")
     
-        res.status(201).json({ message: "Management Updated successfully", data });
+        res.status(201).json({ message: "Management Updated successfully",success: true, data });
   } catch (err) {
     next(err);
   }
@@ -90,7 +90,7 @@ exports.deleteManagement = async (req, res, next) => {
         })
       }
 
-      res.status(200).json({ message: "Management Deleted" });
+      res.status(200).json({ message: "Management Deleted",success: true, });
   } catch (err) {
     next(err);
   }

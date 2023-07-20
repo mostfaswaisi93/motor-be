@@ -6,7 +6,7 @@ const error = require("../Middleware/error");
 exports.getAllServices = async (req, res, next) => {
   try {
     let data = await Service.find({}).populate('management').sort({createdAt: -1})
-    res.status(200).json({ message: `Get All Services`, data})
+    res.status(200).json({ message: `Get All Services`,success: true, data})
   } catch (err) {
     next(err);
   }
@@ -17,7 +17,7 @@ exports.getServiceById = async (req, res, next) => {
   try {
     let data = await Service.findOne({_id: req.params.id}).populate('management')
     if(!data) throw new Error("Service isn't Found")
-    res.status(200).json({ message: `Get Service by Id`, data})
+    res.status(200).json({ message: `Get Service by Id`,success: true, data})
   } catch (err) {
     next(err);
   }
@@ -49,7 +49,7 @@ exports.addNewService = async (req, res, next) => {
 
     const data = await obj.save();
 
-    res.status(200).json({ message: `Service Added`, data});
+    res.status(200).json({ message: `Service Added`, success: true, data});
   } catch (err) {
     next(err);
   }
@@ -85,7 +85,7 @@ exports.updateService = async (req, res, next) => {
 
     if (!data) throw new Error('Service isnot Found') 
 
-    res.status(201).json({ message: "Service Updated successfully", data });
+    res.status(201).json({ message: "Service Updated successfully",success: true, data });
   } catch (err) {
     next(err);
   }
@@ -104,7 +104,7 @@ exports.deleteService = async (req, res, next) => {
         })
       }
 
-      res.status(200).json({ message: "Service Deleted" });
+      res.status(200).json({ message: "Service Deleted",success: true });
   } catch (err) {
     next(err);
   }
@@ -118,7 +118,7 @@ exports.deleteQuestion = async (req, res, next) => {
       $pull: { questions: {_id: req.params.questionId}} 
      },{new: true})
 
-      res.status(200).json({ message: "Question Deleted" });
+      res.status(200).json({ message: "Question Deleted", success: true, });
   } catch (err) {
     next(err);
   }
@@ -137,7 +137,7 @@ exports.updateQuestion = async (req, res, next) => {
             }
     },{new: true})
 
-      res.status(200).json({ message: "Question Updated", data: data.questions });
+      res.status(200).json({ message: "Question Updated",success: true, data: data.questions });
   } catch (err) {
     next(err);
   }
@@ -160,7 +160,7 @@ exports.addQuestion = async (req, res, next) => {
        }} 
     },{new: true})
 
-      res.status(200).json({ message: "Question Added", data: data.questions });
+      res.status(200).json({ message: "Question Added",success: true, data: data.questions });
   } catch (err) {
     next(err);
   }

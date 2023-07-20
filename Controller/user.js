@@ -12,7 +12,7 @@ exports.getUserById = async (req, res, next) => {
 
       const { password, ...others } = await data._doc;
 
-      res.status(200).json({ message: "Fetching User By Id", data: others });
+      res.status(200).json({ message: "Fetching User By Id",success: true, data: others });
     } else {
       throw new Error("Authorized for Admin and Owner only!!");
     }
@@ -52,6 +52,7 @@ exports.addNewUser = async (req, res, next) => {
 
       const { password, ...others } = await data._doc;
       res.status(200).json({
+        success: true,
         message: `Hello ${data.firstName} ${data.lastName}, Your Account has been Created`,
         data: others,
         token,
@@ -80,7 +81,7 @@ exports.updateUser = async (req, res, next) => {
         user.userName = (req.body.userName).trim()
         await user.save()
 
-        res.status(201).json({ message: "Updated successfully", user });
+        res.status(201).json({ message: "Updated successfully",success: true, user });
   } catch (err) {
     next(err);
   }
@@ -94,7 +95,7 @@ exports.deleteUser = async (req, res, next) => {
       let data = await users.findOneAndDelete({ _id: req.params.id });
       if (data == null) throw new Error("User Is not Found!");
 
-      res.status(200).json({ message: "User Deleted" });
+      res.status(200).json({ success: true, message: "User Deleted" });
   } catch (err) {
     next(err);
   }

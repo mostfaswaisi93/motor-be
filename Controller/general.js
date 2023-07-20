@@ -32,7 +32,7 @@ exports.updateHeader = async (req, res, next) => {
       }
     },{upsert: true, new: true})
     
-      res.status(200).json({ message: "Header Updated", data: data?.header });
+      res.status(200).json({ message: "Header Updated",success: true, data: data?.header });
   } catch (err) {
     next(err);
   }
@@ -42,7 +42,7 @@ exports.updateHeader = async (req, res, next) => {
 exports.getHeader = async (req, res, next) => {
   try {
       let data = await General.findOne({}, {header: 1, socialMedia: 1, _id: 0})
-      res.status(200).json({ message: "Get Header", data });
+      res.status(200).json({ message: "Get Header",success: true, data });
   } catch (err) {
     next(err);
   }
@@ -64,7 +64,7 @@ exports.updateSocialMedia = async (req, res, next) => {
         }
       },{upsert: true, new: true})
     
-      res.status(200).json({ message: "social Media Updated", data: data?.socialMedia });
+      res.status(200).json({ message: "social Media Updated",success: true, data: data?.socialMedia });
   } catch (err) {
     next(err);
   }
@@ -74,7 +74,7 @@ exports.updateSocialMedia = async (req, res, next) => {
 exports.getSocialMedia = async (req, res, next) => {
   try {
       let data = await General.findOne({}, {socialMedia: 1, _id: 0})
-      res.status(200).json({ message: "Get social Media", data });
+      res.status(200).json({ message: "Get social Media",success: true, data });
   } catch (err) {
     next(err);
   }
@@ -111,7 +111,7 @@ exports.updateContactUs = async (req, res, next) => {
       }
     },{upsert: true, new: true})
     
-      res.status(200).json({ message: "contact Us Updated", data: data?.contactUs });
+      res.status(200).json({ message: "contact Us Updated",success: true, data: data?.contactUs });
   } catch (err) {
     next(err);
   }
@@ -121,7 +121,7 @@ exports.updateContactUs = async (req, res, next) => {
 exports.getContactUs = async (req, res, next) => {
   try {
       let data = await General.findOne({}, { contactUs: 1, _id: 0})
-      res.status(200).json({ message: "Get contact Us", data });
+      res.status(200).json({ message: "Get contact Us",success: true, data });
   } catch (err) {
     next(err);
   }
@@ -155,7 +155,7 @@ exports.updateWhoWeAre = async (req, res, next) => {
        }
     },{upsert: true, new: true})
     
-      res.status(200).json({ message: "who We Are Updated", data: data?.whoAreWe });
+      res.status(200).json({ message: "who We Are Updated",success: true, data: data?.whoAreWe });
   } catch (err) {
     next(err);
   }
@@ -165,7 +165,7 @@ exports.updateWhoWeAre = async (req, res, next) => {
 exports.getWhoWeAre = async (req, res, next) => {
   try {
       let data = await General.findOne({}, {whoAreWe: 1, _id: 0})
-      res.status(200).json({ message: "Get who We Are", data });
+      res.status(200).json({ message: "Get who We Are",success: true, data });
   } catch (err) {
     next(err);
   }
@@ -190,7 +190,7 @@ exports.updateWhatDoWeApply = async (req, res, next) => {
       }
     },{upsert: true, new: true})
     
-      res.status(200).json({ message: "What Do We Apply Updated", data: data?.whatDoWeApply });
+      res.status(200).json({ message: "What Do We Apply Updated",success: true, data: data?.whatDoWeApply });
   } catch (err) {
     next(err);
   }
@@ -200,7 +200,7 @@ exports.updateWhatDoWeApply = async (req, res, next) => {
 exports.getWhatDoWeApply = async (req, res, next) => {
   try {
       let data = await General.findOne({}, { whatDoWeApply: 1, _id: 0})
-      res.status(200).json({ message: "Get What Do We Apply", data });
+      res.status(200).json({ message: "Get What Do We Apply",success: true, data });
   } catch (err) {
     next(err);
   }
