@@ -24,4 +24,23 @@ router.route('/:id')
 .get(controller.getServiceById)
 .delete(isAuth,controller.deleteService);
 
+router.route('/question')
+    .post([
+        body('serviceId').not().isEmpty().withMessage('Service ID is Required'),
+        body('question_ar').not().isEmpty().isString().withMessage('question_ar is Required'),
+        body('question_en').not().isEmpty().isString().withMessage('question_en is Required'),
+        body('answer_ar').not().isEmpty().isString().withMessage('answer_ar is Required'),
+        body('answer_en').not().isEmpty().isString().withMessage('answer_en is Required'),
+    ],isAuth,controller.addQuestion)
+    .put([
+        body('serviceId').not().isEmpty().withMessage('Service ID is Required'),
+        body('questionId').not().isEmpty().withMessage('Question ID is Required'),
+        body('question_ar').not().isEmpty().isString().withMessage('question_ar is Required'),
+        body('question_en').not().isEmpty().isString().withMessage('question_en is Required'),
+        body('answer_ar').not().isEmpty().isString().withMessage('answer_ar is Required'),
+        body('answer_en').not().isEmpty().isString().withMessage('answer_en is Required'),
+    ],isAuth,controller.updateQuestion)
+
+router.route('/question/:serviceId/:questionId').delete(isAuth,controller.deleteQuestion)
+
 module.exports = router;

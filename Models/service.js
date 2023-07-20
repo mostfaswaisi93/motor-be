@@ -12,6 +12,16 @@ const serviceSchema = new mongoose.Schema({
       },
     whatsappLink: String,
     media:Array,
+    questions:[{
+        question:{
+            ar: String,
+            en: String,
+        },
+        answer:{
+            ar: String,
+            en: String,
+        }
+    }],
     management: [{type: mongoose.Types.ObjectId, ref:"management"}]
 },{timestamps:true})
 

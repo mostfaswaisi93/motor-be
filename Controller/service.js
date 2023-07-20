@@ -109,3 +109,59 @@ exports.deleteService = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.deleteQuestion = async (req, res, next) => {
+  try {
+    if (!req.isAdmin) throw new Error("Not Allowed") 
+    
+    let data = await Service.findOneAndUpdate({_id: req.params.serviceId},{
+      $pull: { questions: {_id: req.params.questionId}} 
+     },{new: true})
+
+      res.status(200).json({ message: "Question Deleted" });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.updateQuestion = async (req, res, next) => {
+  try {
+    if (!req.isAdmin) throw new Error("Not Allowed") 
+    
+    let data = await Service.findOneAndUpdate({_id: req.body.serviceId, 'questions._id': req.body.questionId},{
+        $set: {
+              'questions.$.question.ar': req.body.question_ar,
+              'questions.$.question.en': req.body.question_en,
+              'questions.$.answer.ar': req.body.answer_ar,
+              'questions.$.answer.ar': req.body.answer_ar,
+            }
+    },{new: true})
+
+      res.status(200).json({ message: "Question Updated", data: data.questions });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.addQuestion = async (req, res, next) => {
+  try {
+    if (!req.isAdmin) throw new Error("Not Allowed") 
+    
+    let data = await Service.findOneAndUpdate({_id: req.body.serviceId},{
+       $push: { questions: {
+          question:{
+            ar: req.body.question_ar,
+            en: req.body.question_en,
+          },
+          answer:{
+            ar: req.body.answer_ar,
+            en: req.body.answer_en,
+          }
+       }} 
+    },{new: true})
+
+      res.status(200).json({ message: "Question Added", data: data.questions });
+  } catch (err) {
+    next(err);
+  }
+};
