@@ -65,10 +65,10 @@ exports.updateService = async (req, res, next) => {
     req.files?.media?.length && req.files.media.forEach((file)=>{
         media.push(file.filename)
     })
-    req.body.oldMedia && media.push(...JSON.parse(req.body.oldMedia))
+    req.body.oldMedia && media.push(...req.body.oldMedia.split(','))
     
     let data = await Service.findOneAndUpdate({_id: req.body.serviceId},{
-      logo: req.files.logo?.[0] ? req.files.logo?.[0].filename : req.body.logo,
+      logo: req.files?.logo?.[0] ? req.files?.logo?.[0].filename : req.body?.logo,
       title:{
         ar: req.body.title_ar,
         en: req.body.title_en,
@@ -88,6 +88,7 @@ exports.updateService = async (req, res, next) => {
     res.status(201).json({ message: "Service Updated successfully",success: true, data });
   } catch (err) {
     next(err);
+    console.log(err)
   }
 };
 

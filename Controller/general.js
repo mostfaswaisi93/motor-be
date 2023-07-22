@@ -11,7 +11,7 @@ exports.updateHeader = async (req, res, next) => {
     req.files?.media?.length && req.files.media.forEach((file)=>{
         media.push(file.filename)
     })
-    req.body.oldMedia && media.push(...JSON.parse(req.body.oldMedia))
+    req.body.oldMedia && media.push(...req.body.oldMedia.split(','))
 
     let data = await General.findOneAndUpdate({},{
       header:{
@@ -139,7 +139,7 @@ exports.updateWhoWeAre = async (req, res, next) => {
         media.push(file.filename)
     })
     
-    req.body.oldMedia && media.push(...JSON.parse(req.body.oldMedia))
+    req.body.oldMedia && media.push(...req.body.oldMedia.split(','))
 
     let data = await General.findOneAndUpdate({},{
       whoAreWe:{
