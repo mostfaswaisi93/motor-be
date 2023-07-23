@@ -95,3 +95,18 @@ exports.deleteManagement = async (req, res, next) => {
     next(err);
   }
 };
+
+//get Managements For Service
+exports.getManagementsForService = async (req, res, next) => {
+  try {
+    
+      let data = await Management.find({ serviceId: req.params.serviceId });
+      if (data == null) throw new Error("User Is not Found!");
+
+      res.status(200).json({ message: "Fetching Service Managements",success: true, data});
+  } catch (err) {
+    next(err);
+  }
+};
+
+

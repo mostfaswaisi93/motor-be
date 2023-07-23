@@ -5,6 +5,7 @@ const controller = require('../Controller/management')
 const isAuth = require("../Middleware/auth");
 
 router.route('/getGeneralManagement').get(controller.getGeneralManagement)
+router.route('/getManagementsForService/:serviceId').get(controller.getManagementsForService)
 
 router.route('/')
 .post([
