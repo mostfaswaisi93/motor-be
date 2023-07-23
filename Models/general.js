@@ -68,6 +68,36 @@ const generalSchema = new mongoose.Schema({
             ar: String,
             en: String,
         },
+    },
+    ourGoals:{
+        image: String,
+        title:{
+            ar: String,
+            en: String,
+        },
+        description1:{
+            ar: String,
+            en: String,
+        },
+        description2:{
+            ar: String,
+            en: String,
+        },
+    },
+    ourCommitments:{
+        image: String,
+        title:{
+            ar: String,
+            en: String,
+        },
+        description1:{
+            ar: String,
+            en: String,
+        },
+        description2:{
+            ar: String,
+            en: String,
+        },
     }
 },{timestamps:true})
 

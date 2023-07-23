@@ -171,9 +171,9 @@ exports.getServiceQuestions = async (req, res, next) => {
   try {
     if (!req.isAdmin) throw new Error("Not Allowed") 
     
-    let data = await Service.findOne({_id: req.params.serviceId},{questions: 1})
+    let data = await Service.findOne({_id: req.params.serviceId},{questions: 1, "title.ar": 1, "title.en" :1})
 
-    res.status(200).json({ message: "Fetching Questions",success: true, data: data?.questions });
+    res.status(200).json({ message: "Fetching Questions",success: true, data });
   } catch (err) {
     next(err);
   }

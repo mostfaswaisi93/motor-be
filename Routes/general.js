@@ -50,4 +50,26 @@ router.route('/whatDoWeApply')
     body('description_en').notEmpty().isString().withMessage('description_en is Required'),
 ],isAuth,controller.updateWhatDoWeApply)
 
+router.route('/ourGoals')
+.get(controller.getOurGoals)
+.put([
+    body('title_ar').notEmpty().isString().withMessage('title_ar is Required'),
+    body('title_en').notEmpty().isString().withMessage('title_en is Required'),
+    body('description_ar1').notEmpty().isString().withMessage('description_ar1 is Required'),
+    body('description_en1').notEmpty().isString().withMessage('description_en1 is Required'),
+    body('description_ar2').notEmpty().isString().withMessage('description_ar2 is Required'),
+    body('description_en2').notEmpty().isString().withMessage('description_en2 is Required'),
+],isAuth,controller.updateOurGoals)
+
+router.route('/ourCommitments')
+.get(controller.getOurCommitments)
+.put([
+    body('title_ar').notEmpty().isString().withMessage('title_ar is Required'),
+    body('title_en').notEmpty().isString().withMessage('title_en is Required'),
+    body('description_ar1').notEmpty().isString().withMessage('description_ar1 is Required'),
+    body('description_en1').notEmpty().isString().withMessage('description_en1 is Required'),
+    body('description_ar2').notEmpty().isString().withMessage('description_ar2 is Required'),
+    body('description_en2').notEmpty().isString().withMessage('description_en2 is Required'),
+],isAuth,controller.updateOurCommitments)
+
 module.exports = router;

@@ -15,7 +15,7 @@ exports.updateHeader = async (req, res, next) => {
 
     let data = await General.findOneAndUpdate({},{
       header:{
-        logo: req.files?.logo ? req.files.logo[0]?.filename : req.body.logo ? req.body.logo : 0,
+        logo: req.files?.logo ? req.files.logo[0]?.filename : req.body.logo ? req.body.logo : "",
         media,
         title:{
           ar: req.body.title_ar,
@@ -201,6 +201,84 @@ exports.getWhatDoWeApply = async (req, res, next) => {
   try {
       let data = await General.findOne({}, { whatDoWeApply: 1, _id: 0})
       res.status(200).json({ message: "Get What Do We Apply",success: true, data });
+  } catch (err) {
+    next(err);
+  }
+};
+
+//Update Our Goals
+exports.updateOurGoals = async (req, res, next) => {
+  try {
+    if (!req.isAdmin) throw new Error('Not Allowed')
+    error(req, res, next)
+    
+    let data = await General.findOneAndUpdate({},{
+      ourGoals:{
+        image: req.files?.image ? req.files.image[0]?.filename : req.body.image ? req.body.image : "",
+        title:{
+          ar: req.body.title_ar,
+          en: req.body.title_en,
+        },
+        description1:{
+            ar: req.body.description_ar1,
+            en: req.body.description_en1,
+        },
+        description2:{
+          ar: req.body.description_ar2,
+          en: req.body.description_en2,
+      }}
+    },{upsert: true, new: true})
+    
+      res.status(200).json({ message: "our Goals Updated", success: true, data: data?.ourGoals });
+  } catch (err) {
+    next(err);
+  }
+};
+
+//get Our Goals
+exports.getOurGoals = async (req, res, next) => {
+  try {
+      let data = await General.findOne({}, { ourGoals: 1, _id: 0})
+      res.status(200).json({ message: "get Our Goals", success: true, data });
+  } catch (err) {
+    next(err);
+  }
+};
+
+//Update our Commitments
+exports.updateOurCommitments = async (req, res, next) => {
+  try {
+    if (!req.isAdmin) throw new Error('Not Allowed')
+    error(req, res, next)
+    
+    let data = await General.findOneAndUpdate({},{
+      ourCommitments:{
+        image: req.files?.image ? req.files.image[0]?.filename : req.body.image ? req.body.image : "",
+        title:{
+          ar: req.body.title_ar,
+          en: req.body.title_en,
+        },
+        description1:{
+            ar: req.body.description_ar1,
+            en: req.body.description_en1,
+        },
+        description2:{
+          ar: req.body.description_ar2,
+          en: req.body.description_en2,
+      }}
+    },{upsert: true, new: true})
+    
+      res.status(200).json({ message: "Our Commitments Updated", success: true, data: data?.ourCommitments });
+  } catch (err) {
+    next(err);
+  }
+};
+
+//get Our Goals
+exports.getOurCommitments = async (req, res, next) => {
+  try {
+      let data = await General.findOne({}, { ourCommitments: 1, _id: 0})
+      res.status(200).json({ message: "get Our Commitments", success: true, data });
   } catch (err) {
     next(err);
   }
