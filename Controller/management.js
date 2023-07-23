@@ -56,7 +56,7 @@ exports.updateManagement = async (req, res, next) => {
     error(req, res, next);
   
         let data = await Management.findOneAndUpdate({_id : req.body.managementId},{
-          image: req.files.image?.[0] ? req.files?.image?.[0]?.filename : req.body.image,
+          image: req.files?.image?.[0] ? req.files?.image?.[0]?.filename : req.body.image ? req.body.image : '',
           title:{
             ar: req.body.title_ar,
             en: req.body.title_en,

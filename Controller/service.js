@@ -35,7 +35,7 @@ exports.addNewService = async (req, res, next) => {
     })
 
     let obj = new Service({
-      logo: req.files?.logo?.[0]?.filename,
+      logo: req.files?.logo? req.files.logo?.[0]?.filename : '',
       title:{
         ar: req.body.title_ar,
         en: req.body.title_en,
@@ -68,7 +68,7 @@ exports.updateService = async (req, res, next) => {
     req.body.oldMedia && media.push(...req.body.oldMedia.split(','))
     
     let data = await Service.findOneAndUpdate({_id: req.body.serviceId},{
-      logo: req.files?.logo?.[0] ? req.files?.logo?.[0].filename : req.body?.logo,
+      logo: req.files?.logo?.[0] ? req.files?.logo?.[0].filename : req.body.logo ? req.body.logo : '',
       title:{
         ar: req.body.title_ar,
         en: req.body.title_en,
@@ -134,7 +134,7 @@ exports.updateQuestion = async (req, res, next) => {
               'questions.$.question.ar': req.body.question_ar,
               'questions.$.question.en': req.body.question_en,
               'questions.$.answer.ar': req.body.answer_ar,
-              'questions.$.answer.ar': req.body.answer_ar,
+              'questions.$.answer.en': req.body.answer_en,
             }
     },{new: true})
 
@@ -162,6 +162,18 @@ exports.addQuestion = async (req, res, next) => {
     },{new: true})
 
       res.status(200).json({ message: "Question Added",success: true, data: data.questions });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getServiceQuestions = async (req, res, next) => {
+  try {
+    if (!req.isAdmin) throw new Error("Not Allowed") 
+    
+    let data = await Service.findOne({_id: req.params.serviceId},{questions: 1})
+
+    res.status(200).json({ message: "Fetching Questions",success: true, data: data?.questions });
   } catch (err) {
     next(err);
   }

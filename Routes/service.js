@@ -42,5 +42,7 @@ router.route('/question')
     ],isAuth,controller.updateQuestion)
 
 router.route('/question/:serviceId/:questionId').delete(isAuth,controller.deleteQuestion)
+router.route('/getServiceQuestions/:serviceId').get(isAuth,controller.getServiceQuestions)
+
 
 module.exports = router;

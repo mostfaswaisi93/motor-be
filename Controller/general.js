@@ -15,7 +15,7 @@ exports.updateHeader = async (req, res, next) => {
 
     let data = await General.findOneAndUpdate({},{
       header:{
-        logo: req.files.logo ? req.files.logo[0]?.filename : req.body.logo,
+        logo: req.files?.logo ? req.files.logo[0]?.filename : req.body.logo ? req.body.logo : 0,
         media,
         title:{
           ar: req.body.title_ar,
