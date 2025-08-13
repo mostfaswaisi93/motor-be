@@ -18,9 +18,6 @@ interface ManagementRequest extends Request {
     managementId?: string;
     image?: string;
   };
-  files?: {
-    [fieldname: string]: Express.Multer.File[];
-  };
   params: {
     id: string;
     serviceId: string;
@@ -44,7 +41,7 @@ export const addNewManagement = async (req: ManagementRequest, res: Response, ne
     error(req, res, next);
 
     let obj = new Management({
-      image: req.files?.image?.[0]?.filename || '',
+      image: (req.files as any)?.image?.[0]?.filename || '',
       type: req.body.type,
       title: {
         ar: req.body.title_ar,
@@ -80,7 +77,7 @@ export const updateManagement = async (req: ManagementRequest, res: Response, ne
     error(req, res, next);
 
     let data = await Management.findOneAndUpdate({ _id: req.body.managementId }, {
-      image: req.files?.image?.[0] ? req.files?.image?.[0]?.filename : req.body.image ? req.body.image : '',
+      image: (req.files as any)?.image?.[0] ? (req.files as any)?.image?.[0]?.filename : req.body.image ? req.body.image : '',
       title: {
         ar: req.body.title_ar,
         en: req.body.title_en,

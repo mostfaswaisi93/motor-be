@@ -13,6 +13,10 @@ interface DecodedToken {
   isAdmin: boolean;
 }
 
+interface CustomError extends Error {
+  status?: number;
+}
+
 const auth = (req: AuthRequest, res: Response, next: NextFunction): void => {
   let token: string;
   let decode: DecodedToken;
@@ -20,7 +24,7 @@ const auth = (req: AuthRequest, res: Response, next: NextFunction): void => {
   try {
     const authHeader = req.get("Authorization");
     if (!authHeader) {
-      const err = new Error("Authorization header missing");
+      const err: CustomError = new Error("Authorization header missing");
       err.status = 403;
       return next(err);
     }
@@ -28,9 +32,9 @@ const auth = (req: AuthRequest, res: Response, next: NextFunction): void => {
     token = authHeader.split(" ")[1];
     decode = JWT.verify(token, process.env.SECRET_KEY || '') as DecodedToken;
   } catch (err: any) {
-    err.message = "YOU AREN'T AUTHENTICATED";
-    (err as any).status = 403;
-    return next(err);
+    const customErr: CustomError = new Error("YOU AREN'T AUTHENTICATED");
+    customErr.status = 403;
+    return next(customErr);
   }
 
   if (decode !== undefined) {
