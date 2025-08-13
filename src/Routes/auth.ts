@@ -1,8 +1,9 @@
-const express = require("express");
-const { body, query, param } = require("express-validator");
+import express from "express";
+import { body } from "express-validator";
+import * as controller from '../Controller/auth';
+import isAuth from '../Middleware/auth';
+
 const router = express.Router();
-const controller = require('../Controller/auth')
-const isAuth = require('../Middleware/auth')
 
 router.post("/login",
   [
@@ -10,7 +11,7 @@ router.post("/login",
     body("password")
       .not().isEmpty()
       .withMessage("Password Should not be Empty"),
-  ],controller.authenticationLogin);
+  ], controller.authenticationLogin);
 
 router.post("/register",
   [
@@ -22,7 +23,7 @@ router.post("/register",
     body("confirmPassword").custom((value, { req }) => {
       return (value).trim() == (req.body.password).trim();
     }).withMessage("password confirmation doesnot match"),
-],controller.authenticationRegister);
+  ], controller.authenticationRegister);
 
 router.post("/changePassword",
   [
@@ -30,9 +31,9 @@ router.post("/changePassword",
     body("password").not().isEmpty().withMessage("Password Should be String and not Empty"),
     body("newPassword").not().isEmpty().withMessage("New Password Should be String and not Empty"),
     body("confirmNewPassword").custom((value, { req }) => {
-      return (value).trim() == (req.body.newPassword).trim()
+      return (value).trim() == (req.body.newPassword).trim();
     }).withMessage("password confirmation doesnot match")
-  ],isAuth,controller.changepassword);
+  ], isAuth, controller.changepassword);
 
+export default router;
 
-module.exports = router;

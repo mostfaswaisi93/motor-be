@@ -1,19 +1,22 @@
 //Declaration
-require("dotenv").config();
-const express = require("express");
-const morgan = require("morgan");
-const mongoose = require("mongoose");
-const body_parser = require("body-parser");
-const path = require("path");
-const fs = require('fs')
+import dotenv from 'dotenv';
+import express, { Express, Request, Response, NextFunction } from 'express';
+import morgan from 'morgan';
+import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
+import path from 'path';
+import fs from 'fs';
+import multer, { FileFilterCallback } from 'multer';
+
+// Load environment variables
+dotenv.config();
 
 //img variables
-const multer = require("multer");
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "images"));
+  destination: (req: Request, file: Express.Multer.File, cb: (error: Error | null, destination: string) => void) => {
+    cb(null, path.join(__dirname, "..", "images"));
   },
-  filename: (req, file, cb) => {
+  filename: (req: Request, file: Express.Multer.File, cb: (error: Error | null, filename: string) => void) => {
     cb(
       null,
       new Date().toISOString().replace(/\:/g, "-").replace(/\./g, "-")
@@ -23,7 +26,7 @@ const storage = multer.diskStorage({
   },
 });
 
-const fileFilter = (req, file, cb) => {
+const fileFilter = (req: Request, file: Express.Multer.File, cb: FileFilterCallback) => {
   if (
     //image Extensions
     file.mimetype == "image/jpeg" ||
@@ -39,24 +42,21 @@ const fileFilter = (req, file, cb) => {
 };
 
 //Router Declarations
-const user = require('./Routes/user')
-const auth = require('./Routes/auth')
-const general = require('./Routes/general')
-const service = require('./Routes/service')
-const management = require('./Routes/management')
+import userRoutes from './Routes/user';
+import authRoutes from './Routes/auth';
+import generalRoutes from './Routes/general';
+import serviceRoutes from './Routes/service';
+import managementRoutes from './Routes/management';
 
 //Create Server
-const app = express();
+const app: Express = express();
 
 //connect database
 mongoose.set("strictQuery", false);
 mongoose
-  .connect(process.env.DB_URL)
+  .connect(process.env.DB_URL || '')
   .then(() => {
     console.log("Data base connected");
-    app.listen(process.env.PORT, () => {
-      console.log(`Motor-Be Listenining on Port ${process.env.PORT} .......`);
-    });
   })
   .catch((err) => {
     console.log("database failed");
@@ -68,7 +68,7 @@ app.use(morgan("tiny"));
 
 //Second MW CORS
 // app.use(cors());
-app.use((request, response, next) => {
+app.use((request: Request, response: Response, next: NextFunction) => {
   response.header("Access-Control-Allow-Origin", "*");
   response.header("Access-Control-Allow-Methods","GET,POST,DELETE,PUT,OPTIONS");
   response.header("Access-Control-Allow-Headers", "Content-Type,Authorization");
@@ -85,7 +85,7 @@ try {
 }
 
 //img
-app.use("/images", express.static(path.join(__dirname, "images")));
+app.use("/images", express.static(path.join(__dirname, "..", "images")));
 app.use(multer({ storage, fileFilter }).fields([
   { name: 'logo', maxCount: 1 },
   { name: 'media', maxCount: 10 },
@@ -93,23 +93,29 @@ app.use(multer({ storage, fileFilter }).fields([
 ]))
 
 //body parser
-app.use(body_parser.json());
-app.use(body_parser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 ////////////////////////////////Routers//////////////////////////////////
-app.use('/user', user)
-app.use('/auth' ,auth)
-app.use('/general' , general)
-app.use('/service' , service)
-app.use('/management' , management)
+app.use('/user', userRoutes);
+app.use('/auth', authRoutes);
+app.use('/general', generalRoutes);
+app.use('/service', serviceRoutes);
+app.use('/management', managementRoutes);
 
 //General middleware for not Found url pathes
-app.use((req, res) => {
+app.use((req: Request, res: Response) => {
   res.status(404).json({ data: "Not Found" });
 });
 
 //Error handling middleware that will catch all system Errors
-app.use((err, req, res, nxt) => {
+interface CustomError extends Error {
+  status?: number;
+}
+
+app.use((err: CustomError, req: Request, res: Response, next: NextFunction) => {
   let status = err.status || 500;
   res.status(status).json({ Error: err + " " });
 });
+
+export default app;
